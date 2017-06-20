@@ -22,6 +22,17 @@ class Kele
       response = self.class.get("https://www.bloc.io/api/v1/mentors/#{mentor_id}/student_availability", headers: { "authorization" => @auth_token })
       @mentor_availability = JSON.parse(response.body)
   end
+  
+  def get_messages(page_number)
+      response = self.class.get("https://www.bloc.io/api/v1/message_threads?page=#{page_number}", headers: { "authorization" => @auth_token })
+      @messages = JSON.parse(response.body)
+  end
+  
+  def create_message(email, recipient_id, token, subject, message)
+      response = self.class.post("https://www.bloc.io/api/v1/messages", body: { "sender": email, "recipient_id": recipient_id, "token": token, "subject": subject, "stripped-text": message }, headers: { "authorization" => @auth_token })
+      puts response
+  end
+  
 end
 
 
